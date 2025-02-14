@@ -1,0 +1,2 @@
+Toffoli
+Hadamard

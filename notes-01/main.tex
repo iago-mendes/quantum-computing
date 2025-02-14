@@ -1,0 +1,136 @@
+\documentclass{../doc}
+
+\begin{document}
+  \header{Presentation Notes -- Week 1}{
+    Private Reading: Quantum Computing \\
+    \today \\
+    Oberlin College \\
+    Iago B. Mendes
+  }
+
+  \section{Classical bits (Cbits)}
+    \begin{itemize}
+      \item 2 possible states: $\ket{0}$ or $\ket{1}$
+      \item Reversible operations
+        \begin{itemize}
+          \item Definition: initial states can be retrieved with the knowledge of the final states and the operation
+          \item Example of irreversible operations: ERASE
+            \begin{align}
+              \ket{0} &\to \ket{0} \\
+              \ket{1} &\to \ket{0}
+            \end{align}
+          \item For $n$ Cbits, there are $(2^n)!$ reversible operations \\
+            $\Rightarrow$ mapping each state to another one (permutation of states)
+          \item 1-Cbit operators:
+            \begin{itemize}
+              \item Identity
+                \begin{align}
+                  \hat 1 \ket{1} &= \ket{1} \\
+                  \hat 1 \ket{0} &= \ket{0} \\
+                  \hat 1 &= \begin{pmatrix}
+                    1 & 0 \\
+                    0 & 1
+                  \end{pmatrix}
+                \end{align}
+              \item NOT
+                \begin{align}
+                  \hat X \ket{1} &= \ket{0} \\
+                  \hat X \ket{0} &= \ket{1} \\
+                  \hat X &= \begin{pmatrix}
+                    0 & 1 \\
+                    1 & 0
+                  \end{pmatrix}
+                \end{align}
+            \end{itemize}
+          \item Example of 2-Cbit operator:
+            \begin{itemize}
+              \item cNOT ($\hat C_{ij}$): ``controlled-NOT'' \\
+                $i \to$ ``control Cbit'' (determines when to apply NOT) \\
+                $j \to$ ``target Cbit'' (receives NOT)
+                \begin{align}
+                  \hat C_{01} \ket{10} &= \ket{11} \\
+                  \hat C_{10} \ket{10} &= \ket{10} \\
+                  \hat C_{00} \ket{10} &= \ket{00} \\
+                  &\vdots \notag\\
+                  \hat C_{01} &= \begin{pmatrix}
+                    1 & 0 & 0 & 0 \\
+                    0 & 1 & 0 & 0 \\
+                    0 & 0 & 0 & 1 \\
+                    0 & 0 & 1 & 0
+                  \end{pmatrix} \\
+                  &\vdots \notag
+                \end{align}
+              
+              % \item SWAP ($\hat S_{ij}$): swaps the $i$th and $j$th states
+              %   \begin{align}
+              %     \hat S_{10} \ket{xy} &= \ket{yx} \\
+              %     &\vdots \notag\\
+              %     \hat S_{10} = \hat S_{01} &= \begin{pmatrix}
+              %       1 & 0 & 0 & 0 \\
+              %       0 & 0 & 1 & 0 \\
+              %       0 & 1 & 0 & 0 \\
+              %       0 & 0 & 0 & 1
+              %     \end{pmatrix} \\
+              %     &\vdots \notag
+              %   \end{align}
+              %   \begin{itemize}
+              %     \item Can be constructed out of three cNOT's
+              %       \begin{gather}
+              %         \hat S_{ij} = \hat C_{ij} \hat C_{ji} \hat C_{ij}
+              %       \end{gather}
+              %   \end{itemize}
+            \end{itemize}
+        \end{itemize}
+      \item ``For a reversible classical computer, at least one 3-Cbit gate is needed to build up general logical operations'' \\
+        $\Rightarrow$ Toffoli gate
+    \end{itemize}
+
+  \section{Quantum bits (Qbits)}
+    \begin{itemize}
+      \item Infinite possible states:
+        \begin{equation}
+          \ket{\psi} = \alpha_0 \ket{0} + \alpha_1 \ket{1}
+        \end{equation}
+        $\alpha_0, \alpha_1 \in \mathbb{C}$
+      \item $n$-Qbit system:
+        \begin{equation}
+          \ket{\Psi} = \sum_{x=0}^{2^n-1} \alpha_x \ket{x}_n
+        \end{equation}
+      \item Reversible operations: any unitary transformations! \\
+        $\Rightarrow$ maintain normalized amplitudes
+        \begin{align}
+          \hat u \hat u^\dagger &= \hat 1 \quad\text{(1-Qbit)}\\
+          \hat U \hat U^\dagger &= \hat 1 \quad\text{($n$-Qbit)}
+        \end{align}
+        \begin{itemize}
+          \item Hadamard ($\hat H$): definite state $\to$ superposition
+            \begin{align}
+              \hat H \ket{0} &= \frac{1}{\sqrt{2}} (\ket{0} + \ket{1}) \\
+              \hat H \ket{1} &= \frac{1}{\sqrt{2}} (\ket{0} - \ket{1}) \\
+              \hat H &= \frac{1}{\sqrt{2}} \begin{pmatrix}
+                1 & 1 \\
+                1 & -1
+              \end{pmatrix}
+            \end{align}
+        \end{itemize}
+      \item For general logical operations, we only need 1-Qbit and 2-Qbit gates \\
+        $\Rightarrow$ can construct a Toffoli gate (shown in the next chapter)
+    \end{itemize}
+  
+  \section{Measurement}
+    \begin{itemize}
+      \item Only irreversible operation of quantum computers \\
+        $\Rightarrow$ collapse of the state
+      \item ``Born rule'': probability of an outcome
+        \begin{equation}
+          p(x) = |\alpha_x|^2
+        \end{equation}
+      \item ``Generalized Born rule'': measurement of only one Qbit
+        \begin{equation}
+          \ket{\Psi}_{n+1} = \alpha_0 \ket{0} \ket{\Phi_0}_n + \alpha_1 \ket{1} \ket{\Phi_1}_n
+        \end{equation}
+        If applied multiple times, gives the usual Born probability \\
+        $\Rightarrow$ can use only 1-Qbit measurement gates
+    \end{itemize}
+
+\end{document}
